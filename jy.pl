@@ -39,11 +39,12 @@ sub form_line
     my $offset = shift;
     my $needed_len = shift;
 
+    my $total_tokens = $#{$tokens};
     my $tokens_added = 0;
     my $line_len = 0;
     my @line;
 
-    for my $el (@{$tokens}[$offset..$#{$tokens}]) {
+    for my $el (@{$tokens}[$offset..$total_tokens]) {
         my $word = $$el[0];
         my $word_len = $$el[1];
         if ($#line >= 0) {
@@ -62,7 +63,10 @@ sub form_line
         }
     }
 
-    if ($#line > 0) {
+    my $is_last_word = 
+        $total_tokens - $offset == $tokens_added - 1;
+
+    if (($#line > 0) and !$is_last_word) {
         while ($line_len < $needed_len) {
             for my $word (reverse @line[1..$#line]) {
                 if ($line_len < $needed_len) {
