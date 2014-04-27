@@ -47,12 +47,12 @@ sub form_line
     for my $el (@{$tokens}[$offset..$total_tokens]) {
         my $word = $$el[0];
         my $word_len = $$el[1];
-        if ($#line >= 0) {
+        if ($line_len > 0) {
             $word_len += 1;
             $word = ' ' . $word;
         }
 
-        if ($line_len + $word_len < $needed_len) {
+        if ($line_len + $word_len <= $needed_len) {
             $line_len += $word_len;
             push @line, $word;
 
